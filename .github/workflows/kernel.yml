@@ -7,9 +7,8 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - name: Misc
+      - name: Checkout
         uses: actions/checkout@v2
-        uses: docker/setup-buildx-action@v2
 
       - name: Setup Docker container
         run: |
