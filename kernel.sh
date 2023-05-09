@@ -68,9 +68,6 @@ setup_build() {
         version=$(grep "^VERSION" Makefile | awk '{print $3}')
         patchlevel=$(grep "^PATCHLEVEL" Makefile | awk '{print $3}')
         ver="$version.$patchlevel"
-        git clone --depth=1 https://github.com/Frogging-Family/linux-tkg tkg
-        find tkg/linux-tkg-patches/"$ver" -name "*.patch" -type f |
-                grep -vE "net|userns|sysctl" | while read -r i; do patch -p1 -N < "$i" || true; done
 }
 
 build() {
