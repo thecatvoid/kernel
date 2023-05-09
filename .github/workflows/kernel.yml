@@ -12,7 +12,7 @@ jobs:
 
       - name: Setup Docker container
         run: |
-          sudo docker build -t myimage:latest .
+          sudo docker build -t gentoo_image:latest .
           sudo docker run -it -d --name gentoo_container gentoo_image:latest bash
 
       - name: Setup build
