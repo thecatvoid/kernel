@@ -62,7 +62,7 @@ setup_build() {
                 llvm-17-linker-tools lld-17 \
                 fakeroot wireless-regdb xz-utils
 
-        [[ -d ./linux ]] && git clone --depth=1 https://github.com/zen-kernel/zen-kernel ./linux
+        [[ ! -d ./linux ]] && git clone --depth=1 https://github.com/zen-kernel/zen-kernel ./linux
         cp -f ./linux_defconfig ./linux/arch/x86/configs/
         cd linux
         version=$(grep "^VERSION" Makefile | awk '{print $3}')
