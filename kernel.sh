@@ -62,15 +62,16 @@ setup_build() {
                 llvm-17-linker-tools lld-17 \
                 fakeroot wireless-regdb xz-utils
 
-        [[ ! -d ./linux ]] && git clone --depth=1 https://github.com/zen-kernel/zen-kernel ./linux
+        [[ ! -d ./linux ]] && git clone https://github.com/zen-kernel/zen-kernel ./linux
         cp -f ./linux_defconfig ./linux/arch/x86/configs/
         cd linux
+        git fetch https://github.com/xanmod/linux
+        git merge FETCH_HEAD -X theirs
         version=$(grep "^VERSION" Makefile | awk '{print $3}')
         patchlevel=$(grep "^PATCHLEVEL" Makefile | awk '{print $3}')
         ver="$version.$patchlevel"
-        git clone --depth=1 https://github.com/xanmod/linux-patches xanmod
         git clone --depth=1 https://github.com/Frogging-Family/linux-tkg tkg
-        find xanmod/*"${ver}"* tkg/linux-tkg-patches/"$ver" -name "*.patch" -type f |
+        find tkg/linux-tkg-patches/"$ver" -name "*.patch" -type f |
                 grep -vE "net|userns|sysctl" | while read -r i; do patch -p1 -N < "$i" || true; done
 }
 
