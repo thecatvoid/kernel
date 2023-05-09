@@ -20,7 +20,7 @@ jobs:
           id="$(docker ps --filter "name=gentoo_container" --format "{{.ID}}")"
           echo docker_root="$(docker inspect --format="{{.GraphDriver.Data.MergedDir}}" $id)" > /tmp/env
           source /tmp/env
-          sudo cp ./* $docker_root/root/
+          sudo cp -af ./* $docker_root/root/
           sudo docker exec gentoo_container /root/kernel.sh setup_build
 
       - name: Compile kernel

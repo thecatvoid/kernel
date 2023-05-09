@@ -64,6 +64,7 @@ setup_build() {
 
         [[ ! -d ./linux ]] && git clone --depth=1 https://github.com/xanmod/linux ./linux
         cp -f ./linux_defconfig ./linux/arch/x86/configs/
+        cp -f ./intel-ucode/* /lib/firmware/
         cd linux
 }
 
