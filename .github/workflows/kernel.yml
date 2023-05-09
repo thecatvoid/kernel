@@ -18,15 +18,15 @@ jobs:
       - name: Setup build
         run: |
           id=$(docker ps --filter "name=gentoo_container" --format "{{.ID}}")
-          docker_root=$(docker inspect --format='{{.GraphDriver.Data.MergedDir}}' $id)
+          echo "docker_root=$(docker inspect --format='{{.GraphDriver.Data.MergedDir}}' $id)" >> "$GITHUB_ENV"
           export docker_root
-          sudo cp ./* ${docker_root}/root/
+          sudo cp ./* ${{env.docker_root}}/root/
           sudo docker exec gentoo_container /root/kernel.sh setup_build
 
       - name: Compile kernel
         run: |
           sudo docker exec gentoo_container /root/kernel.sh build
-          sudo cp ${docker_root}/root/linux/arch/x86/boot/bzImage /home/runner/bzImage
+          sudo cp ${{env.docker_root}}/root/linux/arch/x86/boot/bzImage /home/runner/bzImage
           sudo chown $USER:$USER /home/runner/bzImage
 
       - name: Upload
