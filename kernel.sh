@@ -1,28 +1,28 @@
 #!/bin/bash
 set -e
 flags=(
-       CC='clang-17'
-       LLVM='1'
-       LLVM_IAS='1'
-       AS='llvm-as-17'
-       CFLAGS='-march=haswell -mtune=haswell -O2 -pipe -ftree-vectorize -flto=full -fprofile-generate -fomit-frame-pointer -fno-ident'
-       ARCH='x86'
-       SUBARCH='x86'
-       AR='llvm-ar-17'
-       RANLIB='llvm-ranlib-17'
-       LD='ld.lld-17'
-       KBUILD_LDFLAGS=''
-       NM='llvm-nm-17'
-       OBJCOPY='llvm-objcopy-17'
-       READELF='llvm-readelf-17'
-       HOSTCC='clang-17'
-       OBJSIZE='llvm-size-17'
-       OBJDUMP='llvm-objdump-17'
-       STRIP='llvm-strip-17'
-       READELF='llvm-readelf-17'
-       HOSTCXX='clang++-17'
-       HOSTAR='llvm-ar-17'
-       HOSTLD='ld.lld-17'
+       CC="clang-17"
+       LLVM="1"
+       LLVM_IAS="1"
+       AS="llvm-as-17"
+       CFLAGS="-march=haswell -mtune=haswell -O2 -pipe -ftree-vectorize -flto=full -fprofile-generate -fomit-frame-pointer -fno-ident"
+       KBULD_CFLAGS="${CFLAGS}"
+       ARCH="x86"
+       SUBARCH="x86"
+       AR="llvm-ar-17"
+       RANLIB="llvm-ranlib-17"
+       LD="ld.lld-17"
+       NM="llvm-nm-17"
+       OBJCOPY="llvm-objcopy-17"
+       READELF="llvm-readelf-17"
+       HOSTCC="clang-17"
+       OBJSIZE="llvm-size-17"
+       OBJDUMP="llvm-objdump-17"
+       STRIP="llvm-strip-17"
+       READELF="llvm-readelf-17"
+       HOSTCXX="clang++-17"
+       HOSTAR="llvm-ar-17"
+       HOSTLD="ld.lld-17"
 )
 
 declare -g "${flags[@]}"
