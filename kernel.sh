@@ -79,4 +79,4 @@ build() {
 }
 
 # Call functions as command line arguments
-for cmd; do cmd; done
+for cmd; do $cmd; done
