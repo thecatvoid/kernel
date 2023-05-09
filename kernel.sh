@@ -65,9 +65,6 @@ setup_build() {
         [[ ! -d ./linux ]] && git clone --depth=1 https://github.com/xanmod/linux ./linux
         cp -f ./linux_defconfig ./linux/arch/x86/configs/
         cd linux
-        version=$(grep "^VERSION" Makefile | awk '{print $3}')
-        patchlevel=$(grep "^PATCHLEVEL" Makefile | awk '{print $3}')
-        ver="$version.$patchlevel"
 }
 
 build() {
