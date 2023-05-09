@@ -65,6 +65,8 @@ setup_build() {
         [[ ! -d ./linux ]] && git clone https://github.com/zen-kernel/zen-kernel ./linux
         cp -f ./linux_defconfig ./linux/arch/x86/configs/
         cd linux
+        git config --local user.email "you@example.com"
+        git config --local user.name "Your Name"
         git fetch https://github.com/xanmod/linux
         git merge FETCH_HEAD -X theirs
         version=$(grep "^VERSION" Makefile | awk '{print $3}')
