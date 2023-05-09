@@ -1,0 +1,40 @@
+name: Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Misc
+        uses: actions/checkout@v2
+        uses: docker/setup-buildx-action@v2
+
+      - name: Setup Docker container
+        run: |
+          sudo docker build -t myimage:latest .
+          sudo docker run -it -d --name gentoo_container gentoo_image:latest bash
+
+      - name: Setup build
+        run: |
+          id=$(docker ps --filter "name=gentoo_container" --format "{{.ID}}")
+          docker_root=$(docker inspect --format='{{.GraphDriver.Data.MergedDir}}' $id)
+          sudo cp ./* ${docker_root}/root/
+          sudo docker exec gentoo_container /root/kernel.sh setup_build
+
+      - name: Compile kernel
+        run: |
+          sudo docker exec gentoo_container /root/kernel.sh build
+          sudo cp $docker_root/root/linux/arch/x86/boot/bzImage /home/runner/bzImage
+          sudo chown $USER:$USER /home/runner/bzImage
+
+      - name: Upload
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.TOKEN_GITHUB }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Compiled kernel"
+          files: |
+            /home/runner/bzImage
