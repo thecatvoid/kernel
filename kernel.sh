@@ -54,7 +54,7 @@ setup_build() {
         home
         apt update
         apt install -t experimental -y \
-                git lz4 linux-headers-amd64 \
+                git curl lz4 linux-headers-amd64 \
                 build-essential bc libncurses5-dev libssl-dev \
                 bison flex libelf-dev libclang1-17 libclang-cpp17-dev \
                 libclang-cpp17 clangd-17 clang-tools-17 clang-17 \
