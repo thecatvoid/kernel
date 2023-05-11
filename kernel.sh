@@ -60,10 +60,12 @@ setup_build() {
                 libclang-cpp17 clangd-17 clang-tools-17 clang-17 \
                 llvm-17-tools llvm-17 llvm-17-runtime llvm-17-dev \
                 llvm-17-linker-tools lld-17 \
-                fakeroot wireless-regdb xz-utils
+                fakeroot wireless-regdb xz-utils rsync
 
+        git clone --depth=1 "https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git"
+        rsync -a --ignore-existing linux-firmware/* /lib/firmware
         cp -f ./intel-ucode/* /lib/firmware/
-        [[ ! -d ./linux ]] && git clone --depth=1 https://github.com/xanmod/linux ./linux
+        [[ ! -d ./linux ]] && git clone --depth=1 "https://github.com/xanmod/linux" ./linux
         cd linux
         version=$(grep "^VERSION" Makefile | awk '{print $3}')
         patchlevel=$(grep "^PATCHLEVEL" Makefile | awk '{print $3}')
