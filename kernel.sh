@@ -62,10 +62,23 @@ setup_build() {
                 llvm-17-linker-tools lld-17 \
                 fakeroot wireless-regdb xz-utils
 
-        [[ ! -d ./linux ]] && git clone --depth=1 https://github.com/xanmod/linux ./linux
-        cp -f ./linux_defconfig ./linux/arch/x86/configs/
         cp -f ./intel-ucode/* /lib/firmware/
+        [[ ! -d ./linux ]] && git clone --depth=1 https://github.com/xanmod/linux ./linux
         cd linux
+        version=$(grep "^VERSION" Makefile | awk '{print $3}')
+        patchlevel=$(grep "^PATCHLEVEL" Makefile | awk '{print $3}')
+        ver="$version.$patchlevel"
+        curl -sS "https://raw.githubusercontent.com/clearlinux-pkgs/kernel-config/main/base-$ver" -o .config
+        compile savedefconfig
+        sed -i -e '/CONFIG_MODULE/d' \
+                -e '/INITRD/d' \
+                -e '/INITRAMFS/d' \
+                -e 's/=m/=y/' \
+                -e '/CONFIG_EXTRA_FIRMWARE/d' defconfig
+
+        echo 'CONFIG_LTO_CLANG_FULL=y' >> defconfig
+        echo 'CONFIG_EXTRA_FIRMWARE="regulatory.db regulatory.db.p7s rtlwifi/rtl8188efw.bin 06-3c-03"' >> defconfig
+        cp defconfig arch/x86/configs/linux_defconfig
 }
 
 build() {
