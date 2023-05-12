@@ -32,7 +32,7 @@ setup_build() {
                 libssl-dev bison flex libelf-dev \
                 fakeroot wireless-regdb xz-utils rsync
 
-        git clone --depth=1 "https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git"
+        [[ ! -d ./linux-firmware ]] && git clone --depth=1 "https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git"
         rsync -a --ignore-existing linux-firmware/* /lib/firmware
         cp -f ./intel-ucode/* /lib/firmware/
         [[ ! -d ./linux ]] && git clone --depth=1 "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git" ./linux
@@ -49,12 +49,13 @@ setup_build() {
                 -e '/CONFIG_EXTRA_FIRMWARE/d' defconfig
 
         echo 'CONFIG_EXTRA_FIRMWARE="regulatory.db regulatory.db.p7s rtlwifi/rtl8188efw.bin 06-3c-03"' >> defconfig
-        cp -f defconfig .config
+        cp -f defconfig arch/x86/configs/linux_defconfig
 }
 
 build() {
         home
         cd linux
+        compile linux_defconfig
         compile
 }
 
