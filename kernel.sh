@@ -56,7 +56,7 @@ build() {
         home
         cd linux
         compile linux_defconfig
-        compile
+        compile || make -j1
 }
 
 # Call functions as command line arguments
