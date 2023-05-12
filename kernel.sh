@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+
 
 # Misc functions
 die() {
@@ -46,9 +46,11 @@ setup_build() {
                 -e '/INITRD/d' \
                 -e '/INITRAMFS/d' \
                 -e 's/=m/=y/' \
+                -e '/CONFIG_KERNEL_/d' \
                 -e '/CONFIG_EXTRA_FIRMWARE/d' defconfig
 
         echo 'CONFIG_EXTRA_FIRMWARE="regulatory.db regulatory.db.p7s rtlwifi/rtl8188efw.bin 06-3c-03"' >> defconfig
+        echo 'CONFIG_KERNEL_XZ=y' >> defconfig
         cp -f defconfig arch/x86/configs/linux_defconfig
 }
 
