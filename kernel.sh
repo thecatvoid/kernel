@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 
 # Misc functions
 die() {
@@ -26,11 +26,11 @@ compile() {
 setup_build() {
         home
         apt update
-        apt install -t experimental -y \
+        apt install -y \
                 git curl lz4 linux-headers-amd64 binutils-dev \
-                build-essential gcc gcc-base bc libncurses5-dev \
+                build-essential gcc bc libncurses5-dev \
                 libssl-dev bison flex gcc-multilib libelf-dev \
-                fakeroot wireless-regdb gzip xz-utils libgcc-dev \
+                fakeroot wireless-regdb gzip xz-utils \
                 binutils-common rsync
 
         [[ ! -d ./linux-firmware ]] && git clone --depth=1 "https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git"
